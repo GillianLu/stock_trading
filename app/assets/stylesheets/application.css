@@ -22,3 +22,9 @@ body {
     margin: 0;
 }
 
+#alert {
+    position: absolute;
+    left: 2rem;
+    bottom: 2rem;
+    border-radius: 5px;
+}

@@ -9,20 +9,21 @@ class User < ApplicationRecord
 
   #model validations
   validates :email, presence: true, uniqueness: true
-  validates :first_name, format: { with: /\A[A-Za-z]+\z/ , message: "can only contain letters" }
-  validates :last_name, format: { with: /\A[A-Za-z]+\z/ , message: "can only contain letters" }
+  validates :first_name, format: { with: /\A[A-Za-z]+\z/ , message: "can only contain letters" }, allow_blank: true
+  validates :last_name, format: { with: /\A[A-Za-z]+\z/ , message: "can only contain letters" }, allow_blank: true
   #validates :address
   validates :balance, numericality: { greater_than_or_equal_to: 0}
 
-  after_update :send_completed_information_email_to_admin if :information_completed?
+  #after_update :send_completed_information_email_to_admin if :information_completed?
   
   private
   
-  def information_completed?
-    first_name.present? && last_name.present? && address.present?
-  end
+  #def information_completed?
+    #first_name.present? && last_name.present? && address.present?
+  #end
 
-  def send_completed_information_email_to_admin
-    AdminMailer.user_information_completed(self).deliver.now
-  end
+  #def send_completed_information_email_to_admin
+    #AdminMailer.user_information_completed(self).deliver.now
+  #end
+  
 end
