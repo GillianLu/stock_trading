@@ -9,8 +9,8 @@ class User < ApplicationRecord
 
   #model validations
   validates :email, presence: true, uniqueness: true
-  validates :first_name, format: { with: /\A[A-Za-z]+\z/ , message: "can only coontain letters" }
-  validates :last_name, format: { with: /\A[A-Za-z]+\z/ , message: "can only coontain letters" }
+  validates :first_name, format: { with: /\A[A-Za-z]+\z/ , message: "can only contain letters" }
+  validates :last_name, format: { with: /\A[A-Za-z]+\z/ , message: "can only contain letters" }
   #validates :address
   validates :balance, numericality: { greater_than_or_equal_to: 0}
 

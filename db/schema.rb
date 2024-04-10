@@ -23,6 +23,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_10_033011) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.integer "role", default: 0
+    t.decimal "balance", precision: 10, scale: 2, default: "0.0"
     t.string "last_name", limit: 50
     t.string "first_name", limit: 50
     t.string "address"
