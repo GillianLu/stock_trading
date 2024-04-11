@@ -5,7 +5,11 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :confirmable
 
   #roles
-  #enum role: [:user, :trader, :admin]
+  enum role: [:user, :trader, :admin]
+
+  scope user:, -> { where role: 'user'}
+  scope trader:, -> { where role: 'trader'}
+  scope admin:, -> { where role: 'admin'}
 
   #model validations
   validates :email, presence: true, uniqueness: true
@@ -17,7 +21,7 @@ class User < ApplicationRecord
   #after_update :send_completed_information_email_to_admin if :information_completed?
   
   private
-  
+
   #def information_completed?
     #first_name.present? && last_name.present? && address.present?
   #end
