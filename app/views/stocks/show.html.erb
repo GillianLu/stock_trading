@@ -1,0 +1,10 @@
+<h1>Stock Details</h1>
+
+<p><strong>Symbol:</strong> <%= @stock[:symbol] %></p>
+<p><strong>Company Name:</strong> <%= @stock[:name] %></p>
+<p><strong>Latest Price:</strong> <%= @stock[:latest_price] %></p>
+<p><strong>Price 24h Ago:</strong> <%= @stock[:price_24h_ago] %></p>
+
+<%= link_to 'Back', stocks_path, class: 'btn btn-secondary' %>
+
+

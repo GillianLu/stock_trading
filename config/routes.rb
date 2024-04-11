@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
   devise_for :users
-  root 'home#index'
+  resources :stocks, only: [:index, :show]
+  root 'stocks#index'
 end
