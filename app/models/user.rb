@@ -20,7 +20,7 @@ class User < ApplicationRecord
   #validates :address
   validates :balance, numericality: { greater_than_or_equal_to: 0}
 
-  after_update :send_completed_information_email_to_admin if :information_completed?
+  #after_update :send_completed_information_email_to_admin if :information_completed?
   
   private
 

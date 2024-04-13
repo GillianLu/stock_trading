@@ -1,5 +1,5 @@
 class UserController < ApplicationController
-    before_action :set_user, only: %i[ show, edit, update, destroy]
+    before_action :set_user, only: [:show, :edit, :update, :destroy]
     load_and_authorize_resource
     
     # GET /user
@@ -51,6 +51,6 @@ class UserController < ApplicationController
     end
 
     def current_ability
-        @current_ability ||= Ability.new(current_user)
+        @current_ability ||= UserAbility.new(current_user)
     end
 end

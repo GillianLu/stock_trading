@@ -36,7 +36,7 @@
 #log-in-container > form > .field > input, #sign-up-container > form > .field > input {
     width: calc(100% - 1.5rem);
     border-radius: 5px;
-    padding: 0.5rem 0.5rem 0.5rem 1rem;
+    padding: 1rem 0.5rem 0.5rem 1rem;
     border-width: 0.5px;
 }
 

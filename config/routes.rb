@@ -4,6 +4,6 @@ Rails.application.routes.draw do
   }
 
   resources :stocks, only: [:index, :show]
-  resources :user, only: [:index, :show]
+  resources :user
   root 'stocks#index'
 end
