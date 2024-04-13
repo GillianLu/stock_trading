@@ -1,3 +1,30 @@
-<% @users.each do |user| %>
-    <%= link_to user.email, user %>
-<% end %>
+<h1>Stock Trading Users</h1>
+<table id='user-table'>
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Address</th>
+            <th>Balance</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @users.each do |user| %>
+            <tr>
+                <td><%= link_to user.email, user %></td>
+                <td><%= user.last_name.presence || "N/A" %></td>
+                <td><%= user.first_name.presence || "N/A" %></td>
+                <td><%= user.address.presence || "N/A" %></td>
+                <td><%= user.balance.presence || "N/A" %></td>
+                <td>
+                    <%= form_with(model: user, url: user_path(user), method: :put) do |form| %>
+                        <%= form.select :role, User.roles.keys, {}, class: "role-select" %>
+                        <%= form.submit "Update Role" %>
+                    <% end %>
+                </td>
+            </tr>
+        <% end %>
+    </tbody>
+</table>

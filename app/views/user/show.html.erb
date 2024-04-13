@@ -1,1 +1,17 @@
-<p>show</p>
+<h1>User Details</h1>
+
+<ul>
+    <li>Last Name: <span><%= @user.last_name.presence || 'N/A' %></span></li>
+    <li>First Name: <span><%= @user.first_name.presence || 'N/A' %></span></li>
+    <li>Address: <span><%= @user.address.presence || 'N/A' %></span></li>
+    <li>Balance: <span><%= @user.balance.presence || 'N/A' %></span></li>
+    <li>Current Stocks Holding: <span>
+        <ul>
+            <% @user.stocks.each do |stock| %>
+                <li><%= stock.name %> : <span><%= stock.shares %></span></li>
+            <% end %>
+        </ul>
+    </span></li>
+</ul>
+
+<%= link_to 'Edit', edit_user_path(@user) %>
