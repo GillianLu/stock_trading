@@ -1,0 +1,55 @@
+<h1>Your Portfolio</h1>
+
+<% if @stocks.present? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Symbol</th>
+        <th>Company Name</th>
+        <th>Latest Price</th>
+        <th>Actions</th> 
+      </tr>
+    </thead>
+    <tbody>
+      <% @stocks.each do |stock| %>
+        <tr>
+          <td><%= stock[:symbol] %></td>
+          <td><%= stock[:name] %></td>
+          <td><%= stock[:latest_price] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <% if @no_stocks_message.present? %>
+    <p><%= @no_stocks_message %></p>
+  <% end %>
+  <%= link_to 'Buy Stocks', stocks_path, class: 'btn btn-success' %>
+<% end %>
+
+<% if @stocks_for_trading.present? %>
+  <h2>Stocks Available for Trading</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Symbol</th>
+        <th>Company Name</th>
+        <th>Latest Price</th>
+        <th>Price 24h Ago</th>
+        <th>Actions</th> 
+      </tr>
+    </thead>
+    <tbody>
+      <% @stocks_for_trading.each do |stock| %>
+        <tr>
+          <td><%= stock[:symbol] %></td>
+          <td><%= stock[:name] %></td>
+          <td><%= stock[:latest_price] %></td>
+          <td><%= stock[:price_24h_ago] %></td> 
+          <td><%= link_to 'Show', stock_path(stock[:symbol]), class: 'btn btn-info' %></td> 
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

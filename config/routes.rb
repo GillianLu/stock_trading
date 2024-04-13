@@ -3,5 +3,7 @@ Rails.application.routes.draw do
     sessions: 'users/sessions' 
   }
 
-  root 'home#index'
+  resources :stocks, only: [:index, :show]
+  resources :user, only: [:index, :show]
+  root 'stocks#index'
 end

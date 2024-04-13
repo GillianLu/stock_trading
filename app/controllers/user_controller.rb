@@ -1,6 +1,7 @@
 class UserController < ApplicationController
-    before_action :authenticate_user!
-
+    before_action :set_user, only: %i[ show, edit, update, destroy]
+    load_and_authorize_resource
+    
     # GET /user
     # only admin can access
     def index
@@ -9,7 +10,6 @@ class UserController < ApplicationController
 
     # GET /user/1
     def show
-
     end
 
     # GET /user/new
@@ -43,9 +43,14 @@ class UserController < ApplicationController
     private
 
     def set_user
+        @user = User.find(params[:id])
     end
     
     def user_params
         params.require(:user).permit(:first_name, :last_name, :address)
+    end
+
+    def current_ability
+        @current_ability ||= Ability.new(current_user)
     end
 end
