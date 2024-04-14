@@ -1,4 +1,4 @@
-class UserController < ApplicationController
+class UsersController < ApplicationController
     before_action :set_user, only: [:show, :edit, :update, :destroy]
     load_and_authorize_resource
     
@@ -14,10 +14,12 @@ class UserController < ApplicationController
 
     # GET /user/new
     def new
+        @user = User.new
     end
     
     # POST /user
     # only admin can access
+
     def create
     end
 

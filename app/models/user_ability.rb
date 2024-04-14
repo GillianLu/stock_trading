@@ -20,11 +20,11 @@ class UserAbility
       #target_user.id != current_user.id # Non-admin users cannot view other user profiles
     #end
     can :show, User, id: current_user.id
+    can :update, User, id: current_user.id
   end
 
   def trader(current_user)
-    can :read, User
-    can :update, User, id: current_user.id
+    can :manage, User, id: current_user.id
     can :manage, Stock, user_id: current_user.id
   end
 
