@@ -3,13 +3,14 @@ class StocksController < ApplicationController
   before_action :set_stock, only: :show
 
   def index
-    if current_user.stocks.any?
-      @stocks = fetch_user_stocks
+    @stocks = current_user.stocks
+    if @stocks.any?
+      @stocks_for_trading = fetch_all_stocks_for_trading(10)
     else
       @no_stocks_message = "You don't have any stocks yet."
-      @stocks_for_trading = fetch_all_stocks_for_trading(10)
     end
   end
+
 
   def show
     @stock = fetch_stock_details(params[:id])
@@ -47,7 +48,7 @@ class StocksController < ApplicationController
     end
   end
 
-    def fetch_stock_details(symbol)
+  def fetch_stock_details(symbol)
     client = IEX::Api::Client.new
     quote = client.quote(symbol)
     {

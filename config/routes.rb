@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :stocks, only: [:index, :show]
+
+  resources :stocks
+
   root 'stocks#index'
+  resources :transactions, only: [:new, :create, :show]
+
+
 end

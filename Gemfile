@@ -73,3 +73,5 @@ gem "devise", "~> 4.9"
 gem 'httparty'
 
 gem 'iex-ruby-client'
+
+gem 'turbo-rails'
