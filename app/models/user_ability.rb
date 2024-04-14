@@ -21,6 +21,7 @@ class UserAbility
     #end
     can :show, User, id: current_user.id
     can :update, User, id: current_user.id
+    cannot :index, UsersController
   end
 
   def trader(current_user)
