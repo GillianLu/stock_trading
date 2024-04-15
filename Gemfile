@@ -78,4 +78,6 @@ gem 'httparty'
 
 gem 'iex-ruby-client'
 
+gem 'turbo-rails'
+
 gem 'cancancan'

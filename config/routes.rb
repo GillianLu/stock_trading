@@ -13,4 +13,7 @@ Rails.application.routes.draw do
   get 'pending_traders', to: 'users_roles#pending_traders'
 
   root 'stocks#index'
+  resources :transactions, only: [:new, :create, :show]
+
+
 end

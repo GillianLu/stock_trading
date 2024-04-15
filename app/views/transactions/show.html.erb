@@ -1,0 +1,9 @@
+<h1>Transaction Details</h1>
+
+<p><strong>Action:</strong> <%= @transaction.action %></p>
+<p><strong>Stock Symbol:</strong> <%= @transaction.stock_symbol %></p>
+<p><strong>Number of Shares:</strong> <%= @transaction.number_of_shares %></p>
+<p><strong>Price per Share:</strong> <%= @transaction.price_per_share %></p>
+<p><strong>Total Amount:</strong> <%= @transaction.total_amount %></p>
+
+<%= link_to 'Back', stocks_path, class: 'btn btn-secondary' %>
