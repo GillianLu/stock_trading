@@ -1,11 +1,12 @@
 class StocksController < ApplicationController
-  before_action :set_client, only: [:index, :show]
+  #before_action :set_client, only: [:index, :show]
   before_action :set_stock, only: :show
 
   def index
     @stocks = current_user.stocks
+    @stocks_for_trading = fetch_all_stocks_for_trading(10)
     if @stocks.any?
-      @stocks_for_trading = fetch_all_stocks_for_trading(10)
+      #show current stock plus stocks that is available for trading
     else
       @no_stocks_message = "You don't have any stocks yet."
     end
@@ -18,28 +19,18 @@ class StocksController < ApplicationController
 
   private
 
-  def set_client
-    #hide the token
-    @client = IEX::Api::Client.new(
-      publishable_token: 'pk_5e55ef8506ea4a679f622241863e6de4',
-      secret_token: 'sk_d12bd19300c243b995b9398dbfbaf951',
-      endpoint: 'https://cloud.iexapis.com/v1'
-    )
-  end
-
   def set_stock
      @stock = params[:id]
   end
 
   def fetch_all_stocks_for_trading(limit = 10)
-    client = IEX::Api::Client.new
-    all_symbols = client.ref_data_symbols.map(&:symbol)
+    all_symbols = @client.ref_data_symbols.map(&:symbol)
 
     user_owned_symbols = current_user.stocks.pluck(:symbol)
     remaining_symbols = all_symbols - user_owned_symbols
 
     remaining_symbols.first(limit).map do |symbol|
-      quote = client.quote(symbol)
+      quote = @client.quote(symbol)
       {
         symbol: symbol,
         name: quote.company_name,
@@ -50,8 +41,7 @@ class StocksController < ApplicationController
   end
 
   def fetch_stock_details(symbol)
-    client = IEX::Api::Client.new
-    quote = client.quote(symbol)
+    quote = @client.quote(symbol)
     {
       symbol: symbol,
       name: quote.company_name,

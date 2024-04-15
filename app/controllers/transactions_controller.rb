@@ -1,7 +1,4 @@
 class TransactionsController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_client, only: [:new, :create]
-
   def new
     @transaction = Transaction.new(
       stock_symbol: params[:stock_symbol],
@@ -32,28 +29,18 @@ class TransactionsController < ApplicationController
     render :new, alert: e.message
   end
 
-
-
   def show
     @transaction = Transaction.find(params[:id])
   end
 
   private
+
   def transaction_params
     params.require(:transaction).permit(:stock_symbol, :number_of_shares, :price_per_share)
   end
 
-  def set_client
-    @client = IEX::Api::Client.new(
-      publishable_token: 'pk_5e55ef8506ea4a679f622241863e6de4',
-      secret_token: 'sk_d12bd19300c243b995b9398dbfbaf951',
-      endpoint: 'https://cloud.iexapis.com/v1'
-    )
-  end
-
   def fetch_stock_details(symbol)
-    client = IEX::Api::Client.new
-    quote = client.quote(symbol)
+    quote = @client.quote(symbol)
     {
       symbol: symbol,
       name: quote.company_name,
