@@ -21,8 +21,8 @@ class User < ApplicationRecord
   validates :balance, numericality: { greater_than_or_equal_to: 0}
 
   #after_update :send_completed_information_email_to_admin if :information_completed?
-  after_update :send_trader_approval_email, if: -> { user.trader? && trader_approval? }
-  after_update :send_admin_role_email if :user_admin?
+  #after_update :send_trader_approval_email, if: -> { trader? && trader_approval? }
+  #after_update :send_admin_role_email if :user_admin?
 
   #setting trader_approval to true after creating new trader or admin
   after_create :set_trader_approval
@@ -43,14 +43,6 @@ class User < ApplicationRecord
 
   def user.admin?
     admin?
-  end
-
-  def send_trader_approval_email
-    #mailer
-  end
-
-  def send_admin_role_email
-    #mailer
   end
 
   def set_trader_approval

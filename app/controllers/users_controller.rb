@@ -38,16 +38,21 @@ class UsersController < ApplicationController
 
     # GET /user/1/edit
     def edit
-        @user = current_user
     end
 
     # PATCH /user/1
     def update
-        @user = current_user
         if @user.update(user_params)
-        redirect_to root_path, notice: 'User details updated successfully.'
+            if @user.saved_change_to_role? # Check if role attribute has been changed
+                if @user.admin?
+                  AdminMailer.admin_role_email(@user).deliver_now
+                elsif @user.trader?
+                  AdminMailer.trader_approval_email(@user).deliver_now
+                end
+              end
+            redirect_to user_path(@user), notice: 'User details updated successfully.'
         else
-        render :edit
+            render :edit
         end
     end
 
@@ -67,7 +72,7 @@ class UsersController < ApplicationController
     end
     
     def user_params
-        params.require(:user).permit(:first_name, :last_name, :address, :balance)
+        params.require(:user).permit(:first_name, :last_name, :address, :balance, :role)
     end
 
     def current_ability
