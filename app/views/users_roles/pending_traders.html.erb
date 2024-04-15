@@ -1,4 +1,4 @@
-<h1>Stock Trading Users</h1>
+<h1>Stock Trading Pending Traders</h1>
 <%= link_to 'Traders', traders_path %>
 <%= link_to 'Admins', admins_path %>
 <%= link_to 'Pending Approval', pending_traders_path %>
@@ -15,7 +15,7 @@
         </tr>
     </thead>
     <tbody>
-        <% @users.each do |user| %>
+        <% @pending_traders.each do |user| %>
             <tr>
                 <td><%= link_to user.email, user %></td>
                 <td><%= user.last_name.presence || "N/A" %></td>

@@ -22,14 +22,17 @@ class UserAbility
     can :show, User, id: current_user.id
     can :update, User, id: current_user.id
     cannot :index, UsersController
+    cannot :manage, UsersRolesController
   end
 
   def trader(current_user)
     can :manage, User, id: current_user.id
     can :manage, Stock, user_id: current_user.id
+    cannot :manage, UsersRolesController
   end
 
   def admin(current_user)
     can :manage, User
+    can :manage, UsersRolesController
   end
 end

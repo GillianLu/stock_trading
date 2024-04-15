@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_11_120704) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_14_075416) do
   create_table "stocks", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "symbol"
@@ -40,6 +40,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_11_120704) do
     t.string "last_name", limit: 50
     t.string "first_name", limit: 50
     t.string "address"
+    t.boolean "user_approval", default: false
+    t.boolean "trader_approval", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
