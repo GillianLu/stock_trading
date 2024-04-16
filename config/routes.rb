@@ -4,7 +4,12 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
-  resources :stocks, only: [:index, :show]
+  resources :stocks, only: [:index] do
+    collection do
+      get '/:symbol', to: 'stocks#show', as: 'stock'
+    end
+  end
+
   resources :users
 
   get 'admins', to: 'users_roles#admins'
@@ -13,7 +18,13 @@ Rails.application.routes.draw do
   get 'pending_traders', to: 'users_roles#pending_traders'
 
   root 'stocks#index'
-  resources :transactions, only: [:new, :create, :show]
 
-
+  resources :transactions, only: [:create, :show] do
+    collection do
+      get 'buy', to: 'transactions#new', as: 'buy'
+      post 'buy', to: 'transactions#buy', as: 'buy_create'
+      get 'sell', to: 'transactions#new', as: 'sell'
+      post 'sell', to: 'transactions#sell', as: 'sell_create'
+    end
+  end
 end

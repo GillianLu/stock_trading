@@ -6,5 +6,6 @@
 <p><strong>Price 24h Ago:</strong> <%= @stock[:price_24h_ago] %></p>
 
 <%= link_to 'Back', stocks_path, class: 'btn btn-secondary' %>
-<%= link_to 'Buy', new_transaction_path(stock_symbol: @stock[:symbol], price_per_share: @stock[:latest_price]), class: 'btn btn-primary' %>
+<%= link_to 'Buy', buy_transactions_path(stock_symbol: @stock[:symbol], price_per_share: @stock[:latest_price]), class: 'btn btn-primary' %>
+<%= link_to 'Sell', sell_transactions_path(stock_symbol: @stock[:symbol], price_per_share: @stock[:latest_price]), class: 'btn btn-primary' %>
 

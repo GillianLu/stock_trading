@@ -7,26 +7,12 @@ class TransactionsController < ApplicationController
     )
   end
 
-  def create
-    stock = current_user.stocks.find_or_initialize_by(symbol: transaction_params[:stock_symbol])
-    shares = transaction_params[:number_of_shares].to_i
-    price = transaction_params[:price_per_share].to_d
-    total_cost = shares * price
+  def buy
+    create_transaction('buy', 'Stock purchased successfully and added to your portfolio!')
+  end
 
-    if current_user.balance >= total_cost
-      ActiveRecord::Base.transaction do
-        stock.shares = stock.shares.to_i + shares
-        stock.latest_price = price
-        stock.save!
-        current_user.update!(balance: current_user.balance - total_cost)
-        current_user.transactions.create!(transaction_params.merge(total_amount: total_cost))
-        redirect_to stocks_path, notice: 'Stock purchased successfully and added to your portfolio'
-      end
-    else
-      redirect_to new_transaction_path, alert: 'Not enough balance'
-    end
-  rescue ActiveRecord::RecordInvalid => e
-    render :new, alert: e.message
+  def sell
+    create_transaction('sell', 'Stock sold successfully!')
   end
 
   def show
@@ -35,19 +21,27 @@ class TransactionsController < ApplicationController
 
   private
 
+  def create_transaction(action, success_message)
+    total_cost = transaction_params[:number_of_shares].to_i * transaction_params[:price_per_share].to_d
+    if action == 'buy' && current_user.balance >= total_cost || action == 'sell' && stock.shares >= transaction_params[:number_of_shares].to_i
+      Transaction.send("create_#{action}", current_user, transaction_params, total_cost)
+      redirect_to stocks_path, notice: success_message
+    else
+      redirect_to stocks_path, alert: action == 'buy' ? 'Not enough balance' : 'Not enough shares'
+    end
+  rescue ActiveRecord::RecordInvalid => e
+    render :new, alert: e.message
+  end
+
   def transaction_params
     params.require(:transaction).permit(:stock_symbol, :number_of_shares, :price_per_share)
   end
 
-  def fetch_stock_details(symbol)
-    quote = @client.quote(symbol)
-    {
-      symbol: symbol,
-      name: quote.company_name,
-      latest_price: quote.latest_price,
-      price_24h_ago: quote.previous_close
-    }
+  def stock
+    @stock = current_user.stocks.find_or_initialize_by(symbol: transaction_params[:stock_symbol])
   end
 
-
+  def current_ability
+    @current_ability ||= UserAbility.new(current_user)
+  end
 end

@@ -13,6 +13,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     super
+    if @user.save
+      user = @user
+      if user.admin? || user.trader?
+        @user.trader_approval = true
+        @user.save
+      end
+    end
   end
 
   # GET /resource/edit

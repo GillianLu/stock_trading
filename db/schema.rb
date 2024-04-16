@@ -10,16 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_14_075416) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_16_054700) do
   create_table "stocks", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "symbol"
     t.string "name"
-    t.integer "shares"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "company_name"
     t.decimal "latest_price"
+    t.decimal "shares", precision: 2, default: "0"
     t.index ["user_id"], name: "index_stocks_on_user_id"
   end
 
@@ -53,7 +53,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_14_075416) do
     t.string "last_name", limit: 50
     t.string "first_name", limit: 50
     t.string "address"
-    t.boolean "user_approval", default: false
     t.boolean "trader_approval", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true

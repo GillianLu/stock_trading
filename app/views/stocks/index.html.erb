@@ -7,6 +7,7 @@
         <th>Symbol</th>
         <th>Company Name</th>
         <th>Latest Price</th>
+        <th>Shares</th>
         <th>Actions</th> 
       </tr>
     </thead>
@@ -16,6 +17,8 @@
           <td><%= stock[:symbol] %></td>
           <td><%= stock[:name] %></td>
           <td><%= stock[:latest_price] %></td>
+          <td><%= stock[:shares] %></td>
+          <td><%= link_to 'Show', stock_stocks_path(stock[:symbol]), class: 'btn btn-info' %></td>
         </tr>
       <% end %>
     </tbody>
@@ -24,7 +27,7 @@
   <% if @no_stocks_message.present? %>
     <p><%= @no_stocks_message %></p>
   <% end %>
-  <%= link_to 'Buy Stocks', stocks_path, class: 'btn btn-success' %>
+  
 <% end %>
 
 <% if @stocks_for_trading.present? %>
@@ -47,7 +50,7 @@
           <td><%= stock[:latest_price] %></td>
           <td><%= stock[:price_24h_ago] %></td> 
           <td>
-            <%= link_to 'Show', stock_path(stock[:symbol]), class: 'btn btn-info' %>
+            <%= link_to 'Show', stock_stocks_path(stock[:symbol]), class: 'btn btn-info' %>
           
           </td> 
 

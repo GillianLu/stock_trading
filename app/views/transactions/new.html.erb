@@ -1,16 +1,31 @@
-<!-- app/views/transactions/new.html.erb -->
-<%= form_with model: @transaction, local: true do |form| %>
+<% url = if request.path == '/transactions/buy'
+  buy_create_transactions_path
+else
+  sell_create_transactions_path
+end
+%>
+
+<%= form_with model: @transaction, local: true, url: url do |form| %>
+
   <div class="field">
     <%= form.label :stock_symbol %>
     <%= form.text_field :stock_symbol, readonly: true %>
   </div>
+
   <div class="field">
     <%= form.label :number_of_shares %>
     <%= form.number_field :number_of_shares %>
   </div>
+
   <div class="field">
     <%= form.label :price_per_share %>
     <%= form.text_field :price_per_share, readonly: true %>
   </div>
-  <%= form.submit "Buy Shares", class: "btn btn-primary" %>
+  
+  <% if request.path == '/transactions/buy' %>
+    <%= form.submit "Buy Shares", class: "btn btn-primary" %>
+  <% else %>
+    <%= form.submit "Sell Shares", class: "btn btn-primary" %>
+  <% end %>
+  
 <% end %>

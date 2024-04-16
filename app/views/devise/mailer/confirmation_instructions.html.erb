@@ -4,7 +4,13 @@
 
 <p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
 
-<p>Once you've confirmed your account, we kindly ask you to take a moment to complete your profile. This will only take a minute and helps us ensure the security of our platform. Once your profile is complete, you'll have access to all features, including buying and selling shares.</p>
+<% if @user.user? %>
+    <p>Once you've confirmed your account, we kindly ask you to take a moment to complete your profile. This will only take a minute and helps us ensure the security of our platform. Once your profile is complete, you'll have access to all features, including buying and selling shares.</p>
+<% elsif @user.trader? %>
+    <p>We are pleased to inform you that you are now a new trader in our platform. You can now access all our features, including buying and selling shares. We look forward to your active participation in the trading community.</p>
+<% else %>
+    <p>We are happy to announce that you are now a part of our team as an admin. Your role is crucial in maintaining the platform's integrity and ensuring smooth operations. As an admin, you have access to administrative features that help manage user accounts, content, and platform settings. Thank you for being a part of our team!</p>
+<% end %>
 
 <p>Thank you for choosing StockTrading. We're here to support you in your trading journey. If you have any questions or need assistance, please don't hesitate to contact our support team at support@stocktrading.com or visit our <a href="https://stocktrading.com/contact">contact page</a>.</p>
 

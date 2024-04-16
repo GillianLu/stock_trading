@@ -1,5 +1,4 @@
 class UsersRolesController < ApplicationController
-    
     def admins
       @admins = User.admin
     end
@@ -18,7 +17,9 @@ class UsersRolesController < ApplicationController
       end
     end
 
+    private
+
     def current_ability
       @current_ability ||= UserAbility.new(current_user)
-    end
+  end
 end
