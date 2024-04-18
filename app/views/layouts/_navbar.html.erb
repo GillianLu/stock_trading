@@ -1,10 +1,41 @@
-<nav>
-    <ul>
-        <%= current_user.email %>
-        <li><%= link_to "Sign Out", destroy_user_session_path, data: { turbo_method: "delete" } %></li>
-        <% if current_user.admin? %>
-        <li><%= link_to "Users", users_path %></li>
-        <% end %>
+<nav id='navbar'>
+    <div>
+        <h1>Stock Trading</h1>
         <span><%= current_user.balance %></span>
+        <li><%= current_user.email %></li>
+    </div>
+
+    <% nav_links = [
+        {
+            link: root_path,
+            path: '/',
+            name: 'HOME'
+        },
+        {
+            link: stocks_path,
+            path: '/stocks',
+            name: 'STOCKS'
+        },
+        {
+            link: transactions_path,
+            path: '/transactions',
+            name: 'TRANSACTIONS'
+
+        },
+        {
+            link: users_path,
+            path: '/users',
+            name: 'USERS'
+        }
+    ] %>
+    <ul>
+        <% nav_links.each do |link| %>
+            <% active_id = (request.path == link[:path]) ? "nav-link-active" : "nav-link" %>
+            <li id="<%= active_id %>"><%= link_to link[:name], link[:link] %></li>
+        <% end %>
     </ul>
+    <div id='divider'><div>
+    <div id='sign-out-container'>
+        <%= link_to "Sign Out", destroy_user_session_path, method: :delete, data: { turbo_method: "delete" } %>
+    </div>
 </nav>

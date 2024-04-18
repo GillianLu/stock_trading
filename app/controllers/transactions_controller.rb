@@ -1,4 +1,11 @@
 class TransactionsController < ApplicationController
+  load_and_authorize_resource
+
+  def index
+    @transactions = current_user.transactions
+    @users_transactions = Transaction.all if current_user.admin?
+  end
+  
   def new
     @transaction = Transaction.new(
       stock_symbol: params[:stock_symbol],

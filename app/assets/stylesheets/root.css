@@ -1,0 +1,35 @@
+#root-layout {
+    width: calc(100% - 4rem);
+    height: calc(100% - 6rem);
+    background-color: #EFEFEF;
+    padding: 3rem 2rem;
+}
+
+#root-container {
+    box-shadow: rgba(9, 30, 66, 0.15) 0px 0.5rem 1rem 0px;
+    border-radius: 20px;
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+#navbar-container {
+    width: 15%;
+    min-width: 300px;
+    height: auto;
+    flex-grow: 0;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-right: 2px solid #EAEEF3;
+    background-color: #FFFFFF;
+    padding: 1.5rem;
+}
+
+#main-content-container {
+    width: 85%;
+    min-width: 300px;
+    height: 100%;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-color: #FFFFFF;
+}

@@ -4,6 +4,8 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
+  root 'stocks#index'
+
   resources :stocks, only: [:index] do
     collection do
       get '/:symbol', to: 'stocks#show', as: 'stock'
@@ -16,8 +18,6 @@ Rails.application.routes.draw do
   get 'traders', to: 'users_roles#traders'
   get 'new_users', to: 'users_roles#new_users'
   get 'pending_traders', to: 'users_roles#pending_traders'
-
-  root 'stocks#index'
 
   resources :transactions, only: [:create, :show] do
     collection do

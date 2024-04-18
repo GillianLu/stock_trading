@@ -13,6 +13,8 @@
  *= require_tree .
  *= require_self
  *= require devise
+ *= require root
+ *= require navbar
  */
 
 
@@ -20,6 +22,9 @@ body {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
 }
 
 #alert {

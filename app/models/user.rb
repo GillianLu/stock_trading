@@ -20,5 +20,4 @@ class User < ApplicationRecord
   validates :last_name, format: { with: /\A[A-Za-z]+\z/ , message: "can only contain letters" }, allow_blank: true
   #validates :address
   validates :balance, numericality: { greater_than_or_equal_to: 0}
-  
 end
