@@ -2,40 +2,49 @@
     <div>
         <h1>Stock Trading</h1>
         <span><%= current_user.balance %></span>
-        <li><%= current_user.email %></li>
+        <%= current_user.email %>
     </div>
 
     <% nav_links = [
         {
             link: root_path,
             path: '/',
-            name: 'HOME'
+            name: 'HOME',
+            icon: 'home.svg',
         },
         {
             link: stocks_path,
             path: '/stocks',
-            name: 'STOCKS'
+            name: 'STOCKS',
+            icon: 'stock.svg'
         },
         {
             link: transactions_path,
             path: '/transactions',
-            name: 'TRANSACTIONS'
-
-        },
-        {
-            link: users_path,
-            path: '/users',
-            name: 'USERS'
+            name: 'TRANSACTIONS',
+            icon: 'transaction.svg'
         }
     ] %>
     <ul>
         <% nav_links.each do |link| %>
             <% active_id = (request.path == link[:path]) ? "nav-link-active" : "nav-link" %>
-            <li id="<%= active_id %>"><%= link_to link[:name], link[:link] %></li>
+            <li id="<%= active_id %>">
+                <span id='navbar-icon'><%= image_tag(link[:icon], alt: '') %></span>
+                <%= link_to link[:name], link[:link] %>
+            </li>
+        <% end %>
+        <% if current_user.admin? %>
+            <% admin_link = { link: users_path, path: '/users', name: 'USERS', icon: 'user.svg' } %>
+            <% active_id = (request.path == admin_link[:path]) ? "nav-link-active" : "nav-link" %>
+            <li id="<%= active_id %>">
+                <span id='navbar-icon'><%= image_tag(admin_link[:icon], alt: '') %></span>
+                <%= link_to admin_link[:name], admin_link[:link] %>
+            </li>
         <% end %>
     </ul>
-    <div id='divider'><div>
+    <div id='divider'></div>
     <div id='sign-out-container'>
+        <span><%= image_tag('logout.svg', alt: '') %></span>
         <%= link_to "Sign Out", destroy_user_session_path, method: :delete, data: { turbo_method: "delete" } %>
     </div>
 </nav>

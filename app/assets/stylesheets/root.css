@@ -16,7 +16,7 @@
 #navbar-container {
     width: 15%;
     min-width: 300px;
-    height: auto;
+    height: calc(100% - 3rem);
     flex-grow: 0;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
@@ -28,8 +28,10 @@
 #main-content-container {
     width: 85%;
     min-width: 300px;
-    height: 100%;
+    height: calc(100% - 3rem);
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
-    background-color: #FFFFFF;
+    background-color: #F5F7F9;
+    padding: 1.5rem;
+    position: relative;
 }

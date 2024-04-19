@@ -2,13 +2,17 @@ class StocksController < ApplicationController
   before_action :set_stock, only: :show
 
   def index
-    stocks = current_user.stocks
-    @stocks_for_trading = fetch_all_stocks_for_trading(10)
-    if stocks.any?
-      #show current stock plus stocks that is available for trading
-      @stocks = fetch_stocks_details(stocks)
-    else
-      @no_stocks_message = "You don't have any stocks yet."
+    if current_user.admin?
+      redirect_to users_path
+    else 
+      stocks = current_user.stocks
+      @stocks_for_trading = fetch_all_stocks_for_trading(10)
+      if stocks.any?
+        #show current stock plus stocks that is available for trading
+        @stocks = fetch_stocks_details(stocks)
+      else
+        @no_stocks_message = "You don't have any stocks yet."
+      end
     end
   end
 

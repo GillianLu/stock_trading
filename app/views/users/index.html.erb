@@ -1,9 +1,39 @@
 <h1>Stock Trading Users</h1>
-<%= link_to 'Traders', traders_path %>
-<%= link_to 'Admins', admins_path %>
-<%= link_to 'Pending Approval', pending_traders_path %>
-<%= link_to 'New Users', new_users_path %>
-<table id='user-table'>
+<% links = [
+    {
+        path: '/users',
+        name: 'All Users',
+        link: users_path
+    },
+    {
+        path: '/traders',
+        name: 'Traders',
+        link: traders_path
+    },
+    {
+        path: '/admins',
+        name: 'Admins',
+        link: admins_path
+    },
+    {
+        path: '/pending_traders',
+        name: 'Pending Traders',
+        link: pending_traders_path
+    },
+    {
+        path: '/new_users',
+        name: 'New Users',
+        link: new_users_path
+    }
+] %>
+<div id='users-table-container'>
+    <ul class='users-table-links'>
+    <% links.each do |link| %>
+        <% active_id = (request.path == link[:path]) ? "users-table-link-active" : "users-table-link" %>
+        <li id="<%= active_id %>"><%= link_to link[:name], link[:link] %></li>
+    <% end %>
+    </ul>
+    <table id='users-table'>
     <thead>
         <tr>
             <th>Email</th>
@@ -31,5 +61,7 @@
             </tr>
         <% end %>
     </tbody>
-</table>
-<%= link_to 'Add New User', new_user_path %>
+    </table>
+</div>
+
+<%= link_to 'Add New User', new_user_path, id: 'new-user-link' %>
