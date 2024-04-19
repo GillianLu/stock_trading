@@ -13,12 +13,11 @@
   </head>
 
   <body>
+  <% if current_user %>
     <section id='root-layout'>
       <div id='root-container'>
         <div id='navbar-container'>
-          <% if current_user %>
             <%= render 'layouts/navbar' %>
-          <% end %>
         </div>
 
         <div id='main-content-container'>
@@ -26,6 +25,9 @@
         </div>
       </div>
     </section>
+  <% else %>
+    <%= yield %>
+  <% end %>
     <div id='alert'>
       <p class="notice"><%= notice %></p>
       <p class="alert"><%= alert %></p>
