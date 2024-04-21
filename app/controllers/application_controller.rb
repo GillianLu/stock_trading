@@ -7,9 +7,13 @@ class ApplicationController < ActionController::Base
         flash[:error] = "You are not authorized to access this page."
         redirect_to root_url
     end
-    
+
+    def current_ability
+        @current_ability ||= UserAbility.new(current_user)
+    end
+
     private
-    
+
     #memoization
     def set_client
         @client ||= IEX::Api::Client.new

@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "3.3.0"
+ruby '3.1.2'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.3"
@@ -81,3 +81,5 @@ gem 'iex-ruby-client'
 gem 'cancancan'
 
 gem 'dotenv-rails', groups: [:development, :test]
+
+gem 'kaminari'

@@ -1,11 +1,44 @@
-<h1>Stock Details</h1>
+<div id="stocks-details-container">
+    <h1>Stock Details</h1>
+    <table id="stock-info-table">
+        <tbody>
+            <tr>
+                <th>Symbol</th>
+                <td><%= @stock[:symbol] %></td>
+            </tr>
+            <tr>
+                <th>Company Name</th>
+                <td><%= @stock[:name] %></td>
+            </tr>
+            <tr>
+                <th>Latest Price</th>
+                <td><%= @stock[:latest_price] %></td>
+            </tr>
+            <tr>
+                <th>Price 24h Ago</th>
+                <td><%= @stock[:price_24h_ago] %></td>
+            </tr>
+            <tr>
+                <th>Change</th>
+                <td><%= @stock[:change] %></td>
+            </tr>
+            <tr>
+                <th>Change Percent</th>
+                <td><%= @stock[:change_percent] %></td>
+            </tr>
+            <tr>
+                <th>Change Difference</th>
+                <td><%= @stock[:change_percent_s] %></td>
+            </tr>
+        </tbody>
 
-<p><strong>Symbol:</strong> <%= @stock[:symbol] %></p>
-<p><strong>Company Name:</strong> <%= @stock[:name] %></p>
-<p><strong>Latest Price:</strong> <%= @stock[:latest_price] %></p>
-<p><strong>Price 24h Ago:</strong> <%= @stock[:price_24h_ago] %></p>
+    </table>
 
-<%= link_to 'Back', stocks_path, class: 'btn btn-secondary' %>
-<%= link_to 'Buy', buy_transactions_path(stock_symbol: @stock[:symbol], price_per_share: @stock[:latest_price]), class: 'btn btn-primary' %>
-<%= link_to 'Sell', sell_transactions_path(stock_symbol: @stock[:symbol], price_per_share: @stock[:latest_price]), class: 'btn btn-primary' %>
 
+    <div id="button-container">
+        <%= link_to 'Back', stocks_path, class: 'btn btn-secondary' %>
+        <%= link_to 'Buy', buy_transactions_path(stock_symbol: @stock[:symbol], price_per_share: @stock[:latest_price]), class: 'btn btn-primary' %>
+        <%= link_to 'Sell', sell_transactions_path(stock_symbol: @stock[:symbol], price_per_share: @stock[:latest_price]), class: 'btn btn-primary' %>
+
+    </div>
+</div>

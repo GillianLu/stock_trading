@@ -2,7 +2,7 @@ class Transaction < ApplicationRecord
   belongs_to :user
 
   validates :action, presence: true
-  validate :validate_transaction_amount
+  validate :validate_transaction_amount, if: -> { action == 'sell' }
 
   def self.create_buy(user, attributes, total_cost)
     create_transaction(user, attributes, total_cost, 'buy')
@@ -32,10 +32,11 @@ class Transaction < ApplicationRecord
   end
 
   def validate_transaction_amount
-    if action == 'buy' && user.balance < total_amount
-      errors.add(:base, 'Not enough balance')
-    elsif action == 'sell' && user.stocks.find_by(symbol: stock_symbol).shares < number_of_shares
-      errors.add(:base, 'Not enough shares')
+    stock = user.stocks.find_by(symbol: stock_symbol)
+    if stock.nil?
+      errors.add(:base, 'Stock not found')
+    elsif stock.shares < number_of_shares.to_i
+      errors.add(:base, 'Not enough shares to sell')
     end
   end
 end

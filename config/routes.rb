@@ -1,16 +1,12 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { 
+  devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
 
   root 'stocks#index'
 
-  resources :stocks, only: [:index] do
-    collection do
-      get '/:symbol', to: 'stocks#show', as: 'stock'
-    end
-  end
+  resources :stocks, only: [:index, :show], param: :symbol
 
   resources :users
 
