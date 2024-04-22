@@ -1,0 +1,40 @@
+#users-transaction-table-container {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    box-shadow: rgba(9, 30, 66, 0.15) 0.2px 0.1rem 0.5rem 0px;
+    padding: 1rem 0.5rem;
+}
+
+#transaction-action-buy {
+    background-color: #BEE5B0;
+}
+
+
+#transaction-action-sell {
+    background-color: #FF6961;
+}
+
+[id*="transaction-action"] {
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+}
+
+#users-transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+#users-transaction-table th, #users-transaction-table td {
+    text-align: start;
+    padding: 1rem 1.5rem; 
+    border-bottom: 1px solid #EAEEF3;
+}
+
+#users-transaction-table > thead > tr {
+    width: 100%;
+    background-color: black;
+    color: white;
+}

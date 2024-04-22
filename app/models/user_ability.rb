@@ -27,7 +27,7 @@ class UserAbility
   def trader(current_user)
     can :manage, User, id: current_user.id
     #can :manage, Stock, index_stocks_on_user_id: current_user.id
-    can :manage, Transaction, index_transactions_on_user_id: current_user.id
+    can :manage, Transaction, user_id: current_user.id
 
     cannot :manage, UsersRolesController
     cannot :index, UsersController
@@ -36,6 +36,6 @@ class UserAbility
   def admin(current_user)
     can :manage, User
     can :manage, UsersRolesController
-    can :manage, TransactionsController
+    can :manage, Transaction
   end
 end

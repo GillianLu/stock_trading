@@ -5,6 +5,7 @@
     width: 100%;
     height: auto;
     max-height: 75%;
+    padding: 0rem 0.5rem 1rem 0.5rem;
 }
 
 .users-table-links {
@@ -34,7 +35,8 @@
 
 #users-table > thead > tr {
     width: 100%;
-    background-color: #ECF4F7;
+    background-color: black;
+    color: white;
 }
 
 #users-table th,
@@ -46,7 +48,10 @@
 
 #users-table a {
     text-decoration: none;
-    color: #5A91C3;
+    color: white;
+    background-color: #5BC0DE;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
 }
 
 #new-user-link {

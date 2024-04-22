@@ -1,0 +1,92 @@
+#user-info-container, #user-stock-table-container, #user-transaction-table-container {
+    background-color: #FFFFFF;
+    box-shadow: rgba(9, 30, 66, 0.15) 0.2px 0.1rem 0.5rem 0px;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    padding: 1rem 0.5rem;
+}
+
+#user-info-container {
+    max-height: 33.33%;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.5rem;
+}
+
+#user-stock-table-container, #user-transaction-table-container {
+    max-height: 66.66%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+#user-stock-table-container h3, #user-transaction-table-container h3 {
+    width: 100%;
+    text-align: center;
+}
+
+#user-info-container ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#user-info-container li {
+    margin-bottom: 0.5rem;
+}
+
+#user-info-container #action {
+    display: flex;
+    gap: 1rem;
+}
+
+#user-info-container button{
+    font-size: 1rem;
+    background-color: white;
+    border: 0px solid white;
+    color: #5A91C3;
+}
+
+#user-info-container #label {
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+#user-info-container a {
+    color: #5A91C3;
+    text-decoration: none;
+}
+
+#transaction-stock-container {
+    display: flex;
+    width: 100%;
+    height: auto;
+    gap: 1.5rem;
+}
+
+#user-stock-table-container {
+    width: 33.33%;
+    height: 100%;
+}
+
+#user-transaction-table-container {
+    width: 66.66%;
+    height: 100%;
+}
+
+#user-transaction-table, #user-stock-table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}   
+
+#user-transaction-table > thead > tr, #user-stock-table > thead > tr {
+    width: 100%;
+    background-color: black;
+    color: white
+}
+#user-transaction-table td, #user-transaction-table th, #user-stock-table td, #user-stock-table th {
+    text-align: start;
+    padding: 1rem 1.5rem; 
+    border-bottom: 1px solid #EAEEF3;
+}

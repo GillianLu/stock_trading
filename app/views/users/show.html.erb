@@ -1,19 +1,85 @@
 <h1>User Details</h1>
 
-<ul>
-    <li>Last Name: <span><%= @user.last_name.presence || 'N/A' %></span></li>
-    <li>First Name: <span><%= @user.first_name.presence || 'N/A' %></span></li>
-    <li>Address: <span><%= @user.address.presence || 'N/A' %></span></li>
-    <li>Balance: <span><%= @user.balance.presence || 'N/A' %></span></li>
-    <li>Current Stocks Holding: <span>
-        <ul>
-            <% @user.stocks.each do |stock| %>
-                <li><%= stock.name %> : <span><%= stock.shares %></span></li>
+<div id='user-info-container'>
+    <ul>
+        <li><span id='label'>Last Name: </span><span id='value'><%= @user.last_name.presence || 'N/A' %></span></li>
+        <li><span id='label'>First Name: </span><span id='value'><%= @user.first_name.presence || 'N/A' %></span></li>
+        <li><span id='label'>Address: </span><span id='value'><%= @user.address.presence || 'N/A' %></span></li>
+        <li><span id='label'>Balance:</span><span id='value'><%= @user.balance.presence || 'N/A' %></span></li>
+        <li>
+            <span id='label'>Role: </span>
+            <%= form_with(model: @user, url: user_path(@user), method: :put) do |form| %>
+                <%= form.select :role, User.roles.keys, {}, class: "role-select" %>
+                <%= form.submit "Update Role" %>
             <% end %>
-        </ul>
-    </span></li>
-    <li>Role: <span><%= @user.role %></span></li>
-</ul>
+        </li>
+    </ul>
+    <div id='action'>
+        <%= link_to 'Edit', edit_user_path(@user) %>
+        <%= button_to 'Delete Account', @user, method: :delete %>
+    </div>
+</div>
 
-<%= link_to 'Edit', edit_user_path(@user) %>
-<%= button_to 'Delete Account', @user, method: :delete %>
+<div id='transaction-stock-container'>
+    <div id='user-stock-table-container'>
+        <h3>Current Stocks Holding: </h3>
+        <table id='user-stock-table'>
+            <thead>
+                <tr>
+                    <th>Company Name</th>
+                    <th>Symbol</th>
+                    <th>Shares</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if @user.stocks.present? %>
+                    <% @user.stocks.each do |stock| %>
+                    <tr>
+                        <td><%= stock.company_name %></td>
+                        <td><%= stock.symbol %></td>
+                        <td><%= stock.shares %></td>
+                    </tr>
+                    <% end %>
+                <% else %>
+                    <tr>
+                        <td colspan="3"><h3>No stocks</h3></td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+
+    <div id='user-transaction-table-container'>
+    <h3>User&rsquo;s Transactions:</h3>
+
+        <table id='user-transaction-table'>
+            <thead>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Shares</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if @user.transactions.present? %>
+                    <% @user.transactions.each do |transaction| %>
+                        <% action_id = transaction.action == 'buy' ? 'transaction-action-buy' : 'transaction-action-sell' %>
+                    <tr>
+                        <td><%= transaction.stock_symbol %></td>
+                        <td><%= transaction.number_of_shares %></td>
+                        <td><%= transaction.price_per_share %></td>
+                        <td><span id="<%= action_id %>"><%= transaction.action %></span></td>
+                        <td><%= transaction.created_at %></td>
+                    </tr>
+                    <% end %>
+                <% else %>
+                    <tr>
+                        <td colspan="5"><h3>No transactions</h3></td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>

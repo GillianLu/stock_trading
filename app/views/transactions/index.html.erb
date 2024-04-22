@@ -1,0 +1,36 @@
+<h1>Transactions</h1>
+<div id='users-transaction-table-container'>
+    <table id='users-transaction-table'>
+        <thead>
+            <tr>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Symbol</th>
+                <th>Shares</th>
+                <th>Price</th>
+                <th>Action</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if @users_transactions.present? %>
+                <% @users_transactions.each do |transaction| %>
+                <% action_id = transaction.action == 'buy' ? 'transaction-action-buy' : 'transaction-action-sell' %>
+                <tr>
+                    <td><%= transaction.user.last_name %></td>
+                    <td><%= transaction.user.first_name %></td>
+                    <td><%= transaction.stock_symbol %></td>
+                    <td><%= transaction.number_of_shares %></td>
+                    <td><%= transaction.price_per_share %></td>
+                    <td><span id="<%= action_id %>"><%= transaction.action %></span></td>
+                    <td><%= transaction.created_at %></td>
+                </tr>
+                <% end %>
+            <% else %>
+                <tr>
+                    <td colspan="5"><h3>No transactions</h3></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

@@ -1,8 +1,11 @@
 <nav id='navbar'>
     <div>
         <h1>Stock Trading</h1>
-        <span><%= current_user.balance %></span>
-        <%= current_user.email %>
+        <div id='card'>
+            <h1>Welcome, <%= current_user.role.upcase %></h1>
+            <h2><%= current_user.email %></h2>
+            <h3>Balance: <span><%= current_user.balance %></span></h3>
+        </div>
     </div>
 
     <% nav_links = [

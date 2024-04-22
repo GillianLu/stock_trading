@@ -1,0 +1,50 @@
+#user-edit-form-container, #new-user-form-container {
+    width: 80%;
+    height: auto;
+    background-color: white;
+    border-radius: 10px;
+    margin: auto;
+    padding: 1.5rem;
+    box-shadow: rgba(9, 30, 66, 0.15) 0.2px 0.1rem 0.5rem 0px;
+}
+
+#user-edit-form-container h1, #new-user-form-container h1 {
+    width: 100%;
+    text-align: center;
+    margin-top: 0;
+}
+
+#user-edit-form-container .field, #new-user-form-container .field {
+    width: 100%;
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+#user-edit-form-container label, #new-user-form-container label {
+    font-size: 1rem;
+    background-color: white;
+    position: absolute;
+    top: -0.7rem;
+    left: 1rem;
+    padding: 0.2rem;
+}
+
+#user-edit-form-container input, #user-edit-form-container select, #new-user-form-container input, #new-user-form-container select {
+    width: calc(100% - 1.5rem);
+    border-radius: 5px;
+    padding: 1rem 0.5rem 0.5rem 1rem;
+    border-width: 0.5px;
+    font-size: 1rem;
+}
+
+#user-edit-form-container select, #new-user-form-container select {
+    width: 100%;
+}
+
+#user-edit-form-container input[type="submit"], #new-user-form-container input[type="submit"]{
+    background-color: #5BC0DE;
+    color: white;
+    border: none;
+    padding-bottom: 1rem;
+    width: 100%;
+}

@@ -3,7 +3,7 @@ class TransactionsController < ApplicationController
 
   def index
     @transactions = current_user.transactions
-    @users_transactions = Transaction.all if current_user.admin?
+    @users_transactions = Transaction.all.preload(:user) if current_user.admin?
   end
   
   def new

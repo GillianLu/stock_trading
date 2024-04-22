@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   get 'new_users', to: 'users_roles#new_users'
   get 'pending_traders', to: 'users_roles#pending_traders'
 
-  resources :transactions, only: [:create, :show] do
+  resources :transactions, only: [:index, :create, :show] do
     collection do
       get 'buy', to: 'transactions#new', as: 'buy'
       post 'buy', to: 'transactions#buy', as: 'buy_create'

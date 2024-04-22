@@ -51,7 +51,7 @@ class StocksController < ApplicationController
       stock.update(latest_price: quote.latest_price)
     end
 
-    user_stock = current_user.stocks.find_by(symbol: stock.symbol)
+    user_stock = current_user.stocks.find_by(symbol: symbol)
 
     {
       symbol: symbol, 

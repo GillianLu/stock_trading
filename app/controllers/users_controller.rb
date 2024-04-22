@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :set_user, only: [:show, :edit, :update, :destroy]
+    before_action :set_user, only: [:edit, :update, :destroy]
     load_and_authorize_resource
     
     # GET /user
@@ -10,6 +10,7 @@ class UsersController < ApplicationController
 
     # GET /user/1
     def show
+        @user = User.preload(:stocks, :transactions).find(params[:id])
     end
 
     # GET /user/new
