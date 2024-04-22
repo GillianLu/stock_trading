@@ -1,0 +1,51 @@
+<h1>Transactions</h1>
+<div id='users-transaction-table-container'>
+    <% if current_user.admin? %>
+    <% if @users_transactions.present? %>
+    <% else %>
+        <p>No transactions available.</p>
+    <% end %>
+    <% else %>
+    <% if @transactions.present? %>
+        <table id='users-transaction-table'>
+            <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Shares</th>
+                <th>Price</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @transactions.each do |transaction| %>
+            <tr>
+                <td><%= transaction.stock_symbol %></td>
+                <td><%= transaction.number_of_shares %></td>
+                <td><%= number_to_currency(transaction.price_per_share) %></td>
+                <td><%= transaction.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+                <td><%= transaction.action.capitalize %></td>
+
+            </tr>
+            <% end %>
+            </tbody>
+        </table>
+    <% if @total_transactions > @per_page %>
+    <div class="pagination">
+        <% if @page > 1 %>
+        <%= link_to 'Previous', transactions_path(page: @page - 1), class: 'btn btn-primary' %>
+        <% end %>
+        <% if @total_transactions > @page * @per_page %>
+        <%= link_to 'Next', transactions_path(page: @page + 1), class: 'btn btn-primary' %>
+        <% end %>
+    </div>
+    <% end %>
+
+    <%= link_to 'Back', root_path, class: 'btn btn-secondary' %>
+
+    <% else %>
+        <p>No transactions available.</p>
+    <% end %>
+    <% end %>
+</div>
+

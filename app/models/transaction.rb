@@ -6,20 +6,12 @@ class Transaction < ApplicationRecord
 
   def self.create_buy(user, attributes, total_cost)
     transaction = user.transactions.create(attributes.merge(total_amount: total_cost, action: 'buy'))
-    if transaction.save
-      transaction
-    else
-      nil
-    end
+    transaction.save ? transaction : nil
   end
 
   def self.create_sell(user, attributes, total_cost)
     transaction = user.transactions.create(attributes.merge(total_amount: total_cost, action: 'sell'))
-    if transaction.save
-      transaction
-    else
-      nil
-    end
+    transaction.save ? transaction : nil
   end
 
   private

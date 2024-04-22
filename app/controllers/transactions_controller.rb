@@ -2,8 +2,17 @@ class TransactionsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @transactions = current_user.transactions
-    @users_transactions = Transaction.all if current_user.admin?
+    @per_page = 7
+    @page = params[:page].to_i > 0 ? params[:page].to_i : 1
+    offset = (@page - 1) * @per_page
+
+    if current_user.admin?
+      @total_transactions = Transaction.count
+      @users_transactions = Transaction.includes(:user).order(created_at: :desc).limit(@per_page).offset(offset)
+    else
+      @total_transactions = current_user.transactions.count
+      @transactions = current_user.transactions.order(created_at: :desc).limit(@per_page).offset(offset)
+    end
   end
 
   def new

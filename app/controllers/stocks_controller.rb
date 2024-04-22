@@ -59,15 +59,12 @@ class StocksController < ApplicationController
       hash[stock.symbol] = stock.shares
     end
 
-    # Calculate the pagination
     offset = (page.to_i - 1) * limit
     total_stocks = all_symbols.count
     total_pages = (total_stocks.to_f / limit).ceil
 
-    # You can also set @has_next_page as an instance variable to use in your view
     @has_next_page = page.to_i < total_pages
 
-    # Paginate the stocks
     paginated_symbols = all_symbols[offset, limit]
 
     paginated_symbols.map do |symbol|
