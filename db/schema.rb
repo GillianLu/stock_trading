@@ -32,7 +32,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_16_054700) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "action"
-    t.integer "quantity"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
@@ -44,12 +43,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_16_054700) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "balance"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.integer "role", default: 0
-    t.decimal "balance", precision: 10, scale: 2, default: "0.0"
     t.string "last_name", limit: 50
     t.string "first_name", limit: 50
     t.string "address"

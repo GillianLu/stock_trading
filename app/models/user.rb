@@ -8,6 +8,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :confirmable
 
   #roles
+
+  # attribute :role, :string
   enum role: [:user, :trader, :admin]
 
   scope :user, -> { where(role: 'user')}

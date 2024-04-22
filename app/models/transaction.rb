@@ -5,37 +5,28 @@ class Transaction < ApplicationRecord
   validate :validate_transaction_amount
 
   def self.create_buy(user, attributes, total_cost)
-    create_transaction(user, attributes, total_cost, 'buy')
+    transaction = user.transactions.create(attributes.merge(total_amount: total_cost, action: 'buy'))
+    transaction.save ? transaction : nil
   end
 
   def self.create_sell(user, attributes, total_cost)
-    create_transaction(user, attributes, total_cost, 'sell')
+    transaction = user.transactions.create(attributes.merge(total_amount: total_cost, action: 'sell'))
+    transaction.save ? transaction : nil
   end
 
   private
 
-  def self.create_transaction(user, attributes, total_cost, action)
-    ActiveRecord::Base.transaction do
-      transaction = user.transactions.create(attributes.merge(action: action, total_amount: total_cost))
-      transaction.total_amount = total_cost
-      transaction.action = action
-
-      user.balance -= total_cost if action == 'buy'
-      user.balance += total_cost if action == 'sell'
-      user.save!
-
-      stock = user.stocks.find_or_initialize_by(symbol: attributes[:stock_symbol])
-      stock.shares += attributes[:number_of_shares].to_i if action == 'buy'
-      stock.shares -= attributes[:number_of_shares].to_i if action == 'sell'
-      stock.save!
-    end
-  end
-
   def validate_transaction_amount
     if action == 'buy' && user.balance < total_amount
       errors.add(:base, 'Not enough balance')
-    elsif action == 'sell' && user.stocks.find_by(symbol: stock_symbol).shares < number_of_shares
-      errors.add(:base, 'Not enough shares')
+    elsif action == 'sell'
+      stock_item = user.stocks.find_by(symbol: stock_symbol)
+      if stock_item.nil?
+        errors.add(:base, 'Stock not found')
+      elsif stock_item.shares < number_of_shares.to_i
+        errors.add(:base, 'Not enough shares')
+      end
     end
   end
+
 end

@@ -2,16 +2,36 @@ class TransactionsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @transactions = current_user.transactions
-    @users_transactions = Transaction.all.preload(:user) if current_user.admin?
+    @per_page = 7
+    @page = params[:page].to_i > 0 ? params[:page].to_i : 1
+    offset = (@page - 1) * @per_page
+
+    if current_user.admin?
+      @total_transactions = Transaction.count
+      @users_transactions = Transaction.includes(:user).order(created_at: :desc).limit(@per_page).offset(offset)
+    else
+      @total_transactions = current_user.transactions.count
+      @transactions = current_user.transactions.order(created_at: :desc).limit(@per_page).offset(offset)
+    end
   end
-  
+
   def new
     @transaction = Transaction.new(
       stock_symbol: params[:stock_symbol],
       number_of_shares: params[:number_of_shares],
       price_per_share: params[:price_per_share]
     )
+  end
+
+  def create
+    action = params[:action_type]  # Assume this is passed as a parameter to distinguish between 'buy' and 'sell'
+    if action == 'buy'
+      buy
+    elsif action == 'sell'
+      sell
+    else
+      redirect_to stocks_path, alert: "Invalid transaction type"
+    end
   end
 
   def buy
@@ -30,11 +50,22 @@ class TransactionsController < ApplicationController
 
   def create_transaction(action, success_message)
     total_cost = transaction_params[:number_of_shares].to_i * transaction_params[:price_per_share].to_d
-    if action == 'buy' && current_user.balance >= total_cost || action == 'sell' && stock.shares >= transaction_params[:number_of_shares].to_i
-      Transaction.send("create_#{action}", current_user, transaction_params, total_cost)
-      redirect_to stocks_path, notice: success_message
-    else
-      redirect_to stocks_path, alert: action == 'buy' ? 'Not enough balance' : 'Not enough shares'
+    case action
+    when 'buy'
+      if current_user.balance >= total_cost
+        handle_buy_transaction(total_cost, success_message)
+      else
+        redirect_to stocks_path, alert: 'Not enough balance'
+      end
+    when 'sell'
+      stock_item = stock
+      if stock_item.nil?
+        redirect_to stocks_path, alert: 'Stock not found'
+      elsif stock_item.shares < transaction_params[:number_of_shares].to_i
+        redirect_to stocks_path, alert: 'Not enough shares'
+      else
+        handle_sell_transaction(success_message)
+      end
     end
   rescue ActiveRecord::RecordInvalid => e
     render :new, alert: e.message
@@ -45,10 +76,56 @@ class TransactionsController < ApplicationController
   end
 
   def stock
-    @stock = current_user.stocks.find_or_initialize_by(symbol: transaction_params[:stock_symbol])
+    current_user.stocks.find_by(symbol: transaction_params[:stock_symbol])
   end
 
-  def current_ability
-    @current_ability ||= UserAbility.new(current_user)
+  def handle_buy_transaction(total_cost, success_message)
+    ActiveRecord::Base.transaction do
+      current_user.update!(balance: current_user.balance - total_cost)
+      stock_item = current_user.stocks.find_or_initialize_by(symbol: transaction_params[:stock_symbol])
+      stock_item.shares += transaction_params[:number_of_shares].to_i
+      stock_item.save!
+      @transaction = Transaction.create_buy(current_user, transaction_params, total_cost)
+      if @transaction.persisted?
+        redirect_to transaction_path(@transaction), notice: success_message
+      else
+        render :new, alert: "Failed to create transaction."
+      end
+    end
   end
+
+  def handle_sell_transaction(success_message)
+    sold_shares = transaction_params[:number_of_shares].to_i
+    sell_price_per_share = transaction_params[:price_per_share].to_d
+    total_revenue = sold_shares * sell_price_per_share
+
+    ActiveRecord::Base.transaction do
+      stock_item = stock
+      if stock_item.nil?
+        redirect_to stocks_path, alert: 'Stock not found'
+        return
+      end
+
+      new_share_count = stock_item.shares - sold_shares
+      if new_share_count.positive?
+        stock_item.update!(shares: new_share_count)
+      else
+        stock_item.destroy
+      end
+
+      current_user.update!(balance: current_user.balance + total_revenue)
+
+      @transaction = Transaction.create_sell(current_user, transaction_params, total_revenue)
+      if @transaction && @transaction.persisted?
+        redirect_to transaction_path(@transaction), notice: success_message
+      else
+        render :new, alert: "Failed to create transaction."
+      end
+    rescue ActiveRecord::RecordInvalid => e
+      redirect_to stocks_path, alert: e.message
+    end
+  end
+
+
+
 end

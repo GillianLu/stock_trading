@@ -1,16 +1,12 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { 
+  devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
 
   root 'stocks#index'
 
-  resources :stocks, only: [:index] do
-    collection do
-      get '/:symbol', to: 'stocks#show', as: 'stock'
-    end
-  end
+  resources :stocks, only: [:index, :show], param: :symbol
 
   resources :users
 
@@ -19,7 +15,7 @@ Rails.application.routes.draw do
   get 'new_users', to: 'users_roles#new_users'
   get 'pending_traders', to: 'users_roles#pending_traders'
 
-  resources :transactions, only: [:index, :create, :show] do
+  resources :transactions, only: [:index ,:create, :show] do
     collection do
       get 'buy', to: 'transactions#new', as: 'buy'
       post 'buy', to: 'transactions#buy', as: 'buy_create'
