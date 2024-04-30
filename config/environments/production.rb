@@ -9,21 +9,16 @@ Rails.application.configure do
   config.active_storage.service = :local
   config.force_ssl = true
 
-  # Log to STDOUT by default
   config.logger = ActiveSupport::Logger.new(STDOUT)
     .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
     .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
 
-  # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
   config.action_mailer.perform_caching = false
   config.i18n.fallbacks = true
 
-  # Don't log any deprecations.
   config.active_support.report_deprecations = false
-
-  # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
   config.action_mailer.delivery_method = :smtp
@@ -36,6 +31,4 @@ Rails.application.configure do
       authentication:       'plain',
       enable_starttls_auto: true
   }
-
-  config.action_mailer.default_url_options = { host: 'https://stock-trading-8dja.onrender.com', protocol: 'https' }
 end
