@@ -20,6 +20,8 @@ Rails.application.configure do
 
   config.active_support.report_deprecations = false
   config.active_record.dump_schema_after_migration = false
+  config.action_mailer.default_url_options = { host: 'https://stock-trading-8dja.onrender.com', protocol: 'https' }
+
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
@@ -31,4 +33,5 @@ Rails.application.configure do
       authentication:       'plain',
       enable_starttls_auto: true
   }
+
 end
