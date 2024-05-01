@@ -9,7 +9,7 @@
 #   end
 User.create!(
   email: 'acostayuukichi@gmail.com',
-  password: '123456',
+  password: '1234567890',
   first_name: 'Yuukichi',
   last_name: 'Acosta',
   address: 'test test',
