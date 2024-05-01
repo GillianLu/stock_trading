@@ -8,9 +8,13 @@
         <li><span id='label'>Balance:</span><span id='value'><%= @user.balance.presence || 'N/A' %></span></li>
         <li>
             <span id='label'>Role: </span>
-            <%= form_with(model: @user, url: user_path(@user), method: :put) do |form| %>
-                <%= form.select :role, User.roles.keys, {}, class: "role-select" %>
-                <%= form.submit "Update Role" %>
+            <% if current_user.admin? %>
+                <%= form_with(model: @user, url: user_path(@user), method: :put) do |form| %>
+                    <%= form.select :role, User.roles.keys, {}, class: "role-select" %>
+                    <%= form.submit "Update Role" %>
+                <% end %>
+            <% else %>
+                <span id='value'><%= @user.role %></span>
             <% end %>
         </li>
     </ul>

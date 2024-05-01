@@ -43,6 +43,12 @@
                 <span id='navbar-icon'><%= image_tag(admin_link[:icon], alt: '') %></span>
                 <%= link_to admin_link[:name], admin_link[:link] %>
             </li>
+        <% else %>
+            <% active_id = (request.path == user_path(current_user)) ? "nav-link-active" : "nav-link" %>
+            <li id="<%= active_id %>">
+                <span id='navbar-icon'><%= image_tag('user.svg', alt: '') %></span>
+                <%= link_to 'User', user_path(current_user) %>
+            </li>
         <% end %>
     </ul>
     <div id='divider'></div>

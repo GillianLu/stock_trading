@@ -21,10 +21,12 @@
             <%= form.text_field :balance %>
         </div>
 
-        <div class='field'>
-            <%= form.label :role %>
-            <%= form.select :role, User.roles.keys %>
-        </div>
+        <% if current_user.admin? %>
+            <div class='field'>
+                <%= form.label :role %>
+                <%= form.select :role, User.roles.keys %>
+            </div>
+        <% end %>
     
         <%= form.submit "UPDATE" %>
     <% end %>
