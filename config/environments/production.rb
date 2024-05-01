@@ -21,5 +21,24 @@ Rails.application.configure do
   config.active_support.report_deprecations = false
   config.active_record.dump_schema_after_migration = false
 
+  config.action_mailer.delivery_method = :smtp
+
+  config.action_mailer.smtp_settings = {
+    address:         'smtp.gmail.com',
+    port:            587,
+    domain:          'stock-trading-8dja.onrender.com', 
+    user_name:       'acostayuukichi@gmail.com',
+    password:        'mcts mnic mgbq ipbw', 
+    authentication:  'plain',
+    enable_starttls: true,
+    open_timeout:    5,
+    read_timeout:    5
+  }
+
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  
+  config.action_mailer.default_url_options = { host: 'stock-trading-8dja.onrender.com' }
+  config.action_mailer.default_options = { from: 'acostayuukichi@gmail.com' }
 
 end
