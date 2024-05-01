@@ -32,13 +32,16 @@ class UsersController < ApplicationController
     # PATCH /user/1
     def update
         if @user.update(user_params)
-            if @user.saved_change_to_role? # Check if role attribute has been changed
+            if @user.saved_change_to_role? 
+                @user.trader_approval = true if @user.trader?
+                
+                @user.save
                 if @user.admin?
                   AdminMailer.admin_role_email(@user).deliver_now
                 elsif @user.trader?
                   AdminMailer.trader_approval_email(@user).deliver_now
                 end
-              end
+            end
             redirect_to user_path(@user), notice: 'User details updated successfully.'
         else
             render :edit

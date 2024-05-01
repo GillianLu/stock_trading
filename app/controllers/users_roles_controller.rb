@@ -18,7 +18,7 @@ class UsersRolesController < ApplicationController
   
     def pending_traders
       @users = User.all.select do |user|
-        !user.trader_approval? && user.confirmed? && user.first_name.present? && user.last_name.present? && user.address.present?
+        !user.trader_approval && user.confirmed? && user.first_name.present? && user.last_name.present? && user.address.present?
       end
       render 'users/index'
     end
@@ -27,5 +27,5 @@ class UsersRolesController < ApplicationController
 
     def current_ability
       @current_ability ||= UserAbility.new(current_user)
-  end
+    end
 end
