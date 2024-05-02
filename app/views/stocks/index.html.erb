@@ -21,24 +21,32 @@
               <td><%= stock[:latest_price] %></td>
               <td><%= stock[:shares] %></td>
               <td><%= link_to 'Show', stock_path(stock[:symbol]), class: 'btn btn-info' %></td>
-
             </tr>
           <% end %>
         </tbody>
       </table>
+      <% if @total_user_pages > 1 %>
+        <div>
+          <%= link_to 'Previous', stocks_path(page: @page - 1) unless @page <= 1 %>
+          <%= link_to 'Next', stocks_path(page: @page + 1) unless @page >= @total_user_pages %>
+        </div>
+      <% end %>
     <% else %>
       <% if @no_stocks_message.present? %>
         <p><%= @no_stocks_message %></p>
       <% end %>
-      
     <% end %>
   </div>
-  
 </div>
+
 
 <div id="stocks-container">
   <% if @stocks_for_trading.present? %>
     <h2>Stocks Available for Trading</h2>
+    <%= form_tag(stocks_path, method: :get, class: "search-form", style: "display: flex; align-items: center;") do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search stocks...", style: "flex-grow: 1; margin-right: 10px;" %>
+      <%= submit_tag "Search", name: nil, class: "btn btn-black" %>
+    <% end %>
     <table class="styled-table">
       <thead>
         <tr>

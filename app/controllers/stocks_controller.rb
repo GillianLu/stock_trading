@@ -6,16 +6,25 @@ class StocksController < ApplicationController
       redirect_to users_path
     else
       @page = params[:page].to_i > 0 ? params[:page].to_i : 1
-      @stocks_for_trading = fetch_all_stocks_for_trading(@page, 5)
-      @stocks = current_user.stocks # This needs to be an instance variable
+      @search = params[:search]
+      @stocks_for_trading = fetch_all_stocks_for_trading(@page, 4, @search)
 
-      if @stocks.any?
-        @stocks = fetch_stocks_details(@stocks)
+      # Implement manual pagination for user's stocks
+      @user_stocks_all = current_user.stocks
+      @stocks_per_page = 3
+      @total_user_stocks = @user_stocks_all.count
+      @total_user_pages = (@total_user_stocks.to_f / @stocks_per_page).ceil
+      @user_stocks = @user_stocks_all.offset((@page - 1) * @stocks_per_page).limit(@stocks_per_page)
+
+      if @user_stocks.any?
+        @stocks = fetch_stocks_details(@user_stocks)
       else
         @no_stocks_message = "You don't have any stocks yet."
       end
     end
   end
+
+
 
 
   def show
@@ -53,19 +62,21 @@ class StocksController < ApplicationController
   end
 
 
-  def fetch_all_stocks_for_trading(page = 1, limit = 5)
+def fetch_all_stocks_for_trading(page = 1, limit = 4, search = nil)
     all_symbols = @client.ref_data_symbols.map(&:symbol)
     user_owned_stocks = current_user.stocks.each_with_object({}) do |stock, hash|
       hash[stock.symbol] = stock.shares
     end
 
+    filtered_symbols = search ? all_symbols.select { |s| s.downcase.include?(search.downcase) } : all_symbols
+
     offset = (page.to_i - 1) * limit
-    total_stocks = all_symbols.count
+    total_stocks = filtered_symbols.count
     total_pages = (total_stocks.to_f / limit).ceil
 
     @has_next_page = page.to_i < total_pages
 
-    paginated_symbols = all_symbols[offset, limit]
+    paginated_symbols = filtered_symbols[offset, limit]
 
     paginated_symbols.map do |symbol|
       quote = @client.quote(symbol)
@@ -84,9 +95,6 @@ class StocksController < ApplicationController
     Rails.logger.error "Failed to fetch stock data: #{e.message}"
     []
   end
-
-
-
 
   def fetch_stock_details(symbol)
     begin

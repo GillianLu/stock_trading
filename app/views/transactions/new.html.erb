@@ -5,27 +5,30 @@ else
 end
 %>
 
-<%= form_with model: @transaction, local: true, url: url do |form| %>
+<div id="transaction-table-container">
+  <%= form_with model: @transaction, local: true, url: url do |form| %>
 
-  <div class="field">
-    <%= form.label :stock_symbol %>
-    <%= form.text_field :stock_symbol, readonly: true %>
-  </div>
+    <div class="field">
+      <%= form.label :stock_symbol %>
+      <%= form.text_field :stock_symbol, readonly: true %>
+    </div>
 
-  <div class="field">
-    <%= form.label :number_of_shares %>
-    <%= form.number_field :number_of_shares %>
-  </div>
+    <div class="field">
+      <%= form.label :number_of_shares %>
+      <%= form.number_field :number_of_shares %>
+    </div>
 
-  <div class="field">
-    <%= form.label :price_per_share %>
-    <%= form.text_field :price_per_share, readonly: true %>
-  </div>
-  
-  <% if request.path == '/transactions/buy' %>
-    <%= form.submit "Buy Shares", class: "btn btn-primary" %>
-  <% else %>
-    <%= form.submit "Sell Shares", class: "btn btn-primary" %>
+    <div class="field">
+      <%= form.label :price_per_share %>
+      <%= form.text_field :price_per_share, readonly: true %>
+    </div>
+    
+    <% if request.path == '/transactions/buy' %>
+      <%= form.submit "Buy Shares", class: "btn btn-primary" %>
+    <% else %>
+      <%= form.submit "Sell Shares", class: "btn btn-primary" %>
+    <% end %>
+    
   <% end %>
-  
-<% end %>
+</div>
+

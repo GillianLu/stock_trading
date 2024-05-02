@@ -7,6 +7,16 @@
     padding: 1rem 0.5rem;
 }
 
+#transaction-table-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-top: 50px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 #transaction-action-buy {
     background-color: #BEE5B0;
 }
@@ -37,4 +47,24 @@
     width: 100%;
     background-color: black;
     color: white;
+}
+
+.field {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
