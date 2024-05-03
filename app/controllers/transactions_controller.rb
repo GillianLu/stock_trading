@@ -112,8 +112,12 @@ class TransactionsController < ApplicationController
 
       current_user.update!(balance: current_user.balance + total_revenue)
 
-      @transaction = Transaction.create_sell(current_user, transaction_params, total_revenue)
-      redirect_to transaction_path(@transaction), notice: success_message
+      @transaction = Transaction.create_sell(current_user, transaction_params, total_revenue) # Create transaction record
+      if @transaction.persisted?
+        redirect_to transaction_path(@transaction), notice: success_message
+      else
+        render :new, alert: "Failed to create transaction."
+      end
     rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound => e
       render :new, alert: e.message
     rescue StandardError => e

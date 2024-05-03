@@ -9,8 +9,9 @@ class Transaction < ApplicationRecord
     transaction.save ? transaction : nil
   end
 
-  def self.create_sell(user, attributes, total_cost)
-    user.transactions.create!(attributes.merge(total_amount: total_cost, action: 'sell'))
+  def self.create_sell(user, attributes, total_revenue)
+    transaction = user.transactions.create(attributes.merge(total_amount: total_revenue, action: 'sell'))
+    transaction.save ? transaction : nil
   end
 
 
