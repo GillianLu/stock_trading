@@ -9,7 +9,6 @@ class StocksController < ApplicationController
       @search = params[:search]
       @stocks_for_trading = fetch_all_stocks_for_trading(@page, 4, @search)
 
-      # Implement manual pagination for user's stocks
       @user_stocks_all = current_user.stocks
       @stocks_per_page = 3
       @total_user_stocks = @user_stocks_all.count
@@ -23,9 +22,6 @@ class StocksController < ApplicationController
       end
     end
   end
-
-
-
 
   def show
     unless @stock
