@@ -16,12 +16,3 @@ User.create!(
   role: 'admin',
   confirmed_at: Time.now
 )
-
-User.find_or_create_by(email: 'lu.gillian.nicole@gmail.com') do |user|
-  user.password = '123456'
-  user.first_name = 'Gillian'
-  user.last_name = 'Lu'
-  user.address = 'test address'
-  user.role = 'admin'
-  user.confirmed_at = Time.now
-end
