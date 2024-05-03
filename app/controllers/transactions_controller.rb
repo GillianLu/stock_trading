@@ -13,7 +13,11 @@ class TransactionsController < ApplicationController
       @total_transactions = current_user.transactions.count
       @transactions = current_user.transactions.order(created_at: :desc).limit(@per_page).offset(offset)
     end
+
+    @total_pages = (@total_transactions.to_f / @per_page).ceil
   end
+
+
 
   def new
     @transaction = Transaction.new(
