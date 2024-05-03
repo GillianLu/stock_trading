@@ -17,8 +17,6 @@ class TransactionsController < ApplicationController
     @total_pages = (@total_transactions.to_f / @per_page).ceil
   end
 
-
-
   def new
     @transaction = Transaction.new(
       stock_symbol: params[:stock_symbol],
@@ -105,31 +103,23 @@ class TransactionsController < ApplicationController
 
     ActiveRecord::Base.transaction do
       stock_item = stock
-      if stock_item.nil?
-        redirect_to stocks_path, alert: 'Stock not found'
-        return
-      end
+      raise ActiveRecord::RecordNotFound, 'Stock not found' if stock_item.nil?
+      raise StandardError, 'Not enough shares' if stock_item.shares < sold_shares
 
       new_share_count = stock_item.shares - sold_shares
-      if new_share_count.positive?
-        stock_item.update!(shares: new_share_count)
-      else
-        stock_item.destroy
-      end
+      stock_item.update!(shares: new_share_count)
+      stock_item.destroy if new_share_count <= 0
 
       current_user.update!(balance: current_user.balance + total_revenue)
 
       @transaction = Transaction.create_sell(current_user, transaction_params, total_revenue)
-      if @transaction && @transaction.persisted?
-        redirect_to transaction_path(@transaction), notice: success_message
-      else
-        render :new, alert: "Failed to create transaction."
-      end
-    rescue ActiveRecord::RecordInvalid => e
+      redirect_to transaction_path(@transaction), notice: success_message
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound => e
+      render :new, alert: e.message
+    rescue StandardError => e
       redirect_to stocks_path, alert: e.message
     end
   end
-
 
 
 end
