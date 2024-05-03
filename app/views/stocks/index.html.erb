@@ -25,12 +25,14 @@
           <% end %>
         </tbody>
       </table>
-      <% if @total_user_pages > 1 %>
+      
+     <% if @total_user_pages > 1 %>
         <div>
           <%= link_to 'Previous', stocks_path(page: @page - 1) unless @page <= 1 %>
           <%= link_to 'Next', stocks_path(page: @page + 1) unless @page >= @total_user_pages %>
         </div>
       <% end %>
+
     <% else %>
       <% if @no_stocks_message.present? %>
         <p><%= @no_stocks_message %></p>
@@ -38,6 +40,7 @@
     <% end %>
   </div>
 </div>
+
 
 <div id="stocks-container">
   <% if @stocks_for_trading.present? %>
