@@ -25,14 +25,13 @@
           <% end %>
         </tbody>
       </table>
-      
+
      <% if @total_user_pages > 1 %>
         <div>
-          <%= link_to 'Previous', stocks_path(page: @page - 1) unless @page <= 1 %>
-          <%= link_to 'Next', stocks_path(page: @page + 1) unless @page >= @total_user_pages %>
+          <%= link_to 'Previous', stocks_path(user_page: @user_page - 1) unless @user_page <= 1 %>
+          <%= link_to 'Next', stocks_path(user_page: @user_page + 1) unless @user_page >= @total_user_pages %>
         </div>
       <% end %>
-
     <% else %>
       <% if @no_stocks_message.present? %>
         <p><%= @no_stocks_message %></p>
@@ -73,8 +72,8 @@
     </table>
 
     <div>
-      <%= link_to 'Previous', stocks_path(page: params[:page].to_i - 1) unless params[:page].to_i <= 1 %>
-      <%= link_to 'Next', stocks_path(page: params[:page].to_i + 1) %>
+      <%= link_to 'Previous', stocks_path(trade_page: @trade_page - 1) unless @trade_page <= 1 %>
+      <%= link_to 'Next', stocks_path(trade_page: @trade_page + 1) %>
     </div>
   <% end %>
 </div>

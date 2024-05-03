@@ -5,16 +5,18 @@ class StocksController < ApplicationController
     if current_user.admin?
       redirect_to users_path
     else
-      @page = params[:page].to_i > 0 ? params[:page].to_i : 1
+      # Pagination for stocks available for trading
+      @trade_page = params[:trade_page].to_i > 0 ? params[:trade_page].to_i : 1
       @search = params[:search]
-      @stocks_for_trading = fetch_all_stocks_for_trading(@page, 4, @search)
+      @stocks_for_trading = fetch_all_stocks_for_trading(@trade_page, 4, @search)
 
-      # Implement manual pagination for user's stocks
+      # Pagination for user's stocks
+      @user_page = params[:user_page].to_i > 0 ? params[:user_page].to_i : 1
       @user_stocks_all = current_user.stocks
       @stocks_per_page = 3
       @total_user_stocks = @user_stocks_all.count
       @total_user_pages = (@total_user_stocks.to_f / @stocks_per_page).ceil
-      @user_stocks = @user_stocks_all.offset((@page - 1) * @stocks_per_page).limit(@stocks_per_page)
+      @user_stocks = @user_stocks_all.offset((@user_page - 1) * @stocks_per_page).limit(@stocks_per_page)
 
       if @user_stocks.any?
         @stocks = fetch_stocks_details(@user_stocks)
@@ -23,9 +25,6 @@ class StocksController < ApplicationController
       end
     end
   end
-
-
-
 
   def show
     unless @stock
@@ -62,7 +61,7 @@ class StocksController < ApplicationController
   end
 
 
-def fetch_all_stocks_for_trading(page = 1, limit = 4, search = nil)
+  def fetch_all_stocks_for_trading(page = 1, limit = 4, search = nil)
     all_symbols = @client.ref_data_symbols.map(&:symbol)
     user_owned_stocks = current_user.stocks.each_with_object({}) do |stock, hash|
       hash[stock.symbol] = stock.shares
