@@ -14,5 +14,15 @@ User.create!(
   last_name: 'Acosta',
   address: 'test test',
   role: 'admin',
-  confirmed_at: Time.now 
+  confirmed_at: Time.now
+)
+
+User.create!(
+  email: 'lu.gillian.nicole@gmail.com',
+  password: '123456',
+  first_name: 'Gillian',
+  last_name: 'Lu',
+  address: 'test test',
+  role: 'admin',
+  confirmed_at: Time.now
 )
