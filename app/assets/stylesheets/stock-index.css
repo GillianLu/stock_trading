@@ -5,14 +5,15 @@
     border-radius: 10px;
     margin-bottom: 5px;
     font-family: "Poppins", sans-serif;
+    font-size: 0.8em;
 }
 
 #stocks-container {
     background-color: #FFFFFF;
     padding: 10px;
     border-radius: 10px;
+    font-size: 0.8em;
 }
-
 
 #button-container {
     padding: 20px 0px;

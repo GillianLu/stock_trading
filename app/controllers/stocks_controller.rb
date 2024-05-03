@@ -24,6 +24,9 @@ class StocksController < ApplicationController
     end
   end
 
+
+
+
   def show
     unless @stock
       redirect_to stocks_path, alert: "Stock not found."
